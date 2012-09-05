@@ -28,7 +28,7 @@ import java.util.Hashtable;
  */
 public class ProbabilityDBM {
 	/** hash table */
-	private Hashtable<String,double[]> table = null;
+	protected Hashtable<String,double[]> table = null;
 	
 	/**
 	 * Constructor.
@@ -37,8 +37,11 @@ public class ProbabilityDBM {
 	 */
 	public ProbabilityDBM(String fileName) throws IOException {
 		table = new Hashtable<String,double[]>();
-		init(fileName);
+		BufferedReader br = new BufferedReader(new FileReader(fileName));
+		init(br);
 	}
+	
+	protected ProbabilityDBM(){}
 	
 	/**
 	 * Cleans the hash table.
@@ -61,8 +64,7 @@ public class ProbabilityDBM {
 	 * @param fileName - the path of the file which has the probability data
 	 * @throws IOException
 	 */
-	private void init(String fileName) throws IOException {
-		BufferedReader br = new BufferedReader(new FileReader(fileName));
+	protected void init(BufferedReader br) throws IOException {
 		String line = null;
 		String[] tokens = null;
 		double[] numbers = null;

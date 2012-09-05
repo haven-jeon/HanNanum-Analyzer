@@ -21,10 +21,13 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.Hashtable;
 import java.util.StringTokenizer;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 /**
  * This class is the data structure for the pre-analyzed dictionary.
@@ -80,12 +83,17 @@ public class AnalyzedDic {
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	public void readDic(String dictionaryFileName) throws UnsupportedEncodingException, FileNotFoundException, IOException {
-		dictionary.clear();
-		String str = "";
-		
-		BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(dictionaryFileName), "UTF-8"));
+	public void readDic(String dictionaryFileName) throws UnsupportedEncodingException, IOException {
 
+		BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(dictionaryFileName), "UTF-8"));
+		readDicBuf(in);
+	}
+	
+	
+	private void readDicBuf(BufferedReader in) throws IOException{
+		String str = "";
+		dictionary.clear();
+		
 		while ((str = in.readLine()) != null) {
 			str.trim();
 			if (str.equals("")) {
@@ -99,6 +107,30 @@ public class AnalyzedDic {
 				value += tok.nextToken() + "\n";
 			}
 			dictionary.put(key, value.trim());
-		}
+		}	
+		
+		in.close();
 	}
+	
+	
+	/**
+	 * It loads the pre-analyzed dictionary from data file to the hash table.
+	 * The file format of dictionary should be like this: "ITEM\tCONTENT\n"
+	 * @param zipFilePath - zip file which contains pre-analyzed dictionaries
+	 * @param dicFile - the path for the pre-analyzed dictionary file
+	 * @throws UnsupportedEncodingException
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
+	public void readDic(String zipFilePath, String dicFile) throws UnsupportedEncodingException, IOException {
+		
+		ZipFile zip = new ZipFile(zipFilePath);
+		ZipEntry entry = zip.getEntry(dicFile);
+		
+		BufferedReader in = new BufferedReader(new InputStreamReader(zip.getInputStream(entry), "UTF-8"));
+		
+		readDicBuf(in);
+		zip.close();
+	}
+	
 }

@@ -20,11 +20,14 @@ package kr.ac.kaist.swrc.jhannanum.share;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.StringTokenizer;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 /**
  * Morpheme tag set.
@@ -255,6 +258,27 @@ public class TagSet {
 	 */
 	public void init(String filePath, int tagSetFlag) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(filePath)));
+		read(br);
+		setTagTypes(tagSetFlag);
+	}
+	
+	/**
+	 * Reads the tag set file, and initializes the object.
+	 * @param jarFilePath - Jar file path
+	 * @throws IOException
+	 */
+	
+	public void init(String zipFilePath, String filePathinZip, int tagSetFlag) throws IOException{
+		ZipFile zip = new ZipFile(zipFilePath);
+		ZipEntry entry = zip.getEntry(filePathinZip);
+		InputStream in  = zip.getInputStream(entry);
+		BufferedReader br = new BufferedReader(new InputStreamReader(in));
+		read(br);
+		zip.close();
+		setTagTypes(tagSetFlag);
+	}
+	
+	private void read(BufferedReader br) throws IOException{
 		String line = null;
 		
 		title = "";
@@ -326,7 +350,6 @@ public class TagSet {
 		}
 		br.close();
 		
-		setTagTypes(tagSetFlag);
 		indexTags = tagSetMap.get("index");
 		unkTags = tagSetMap.get("unkset");
 		iwgTag = tagList.indexOf("iwg");

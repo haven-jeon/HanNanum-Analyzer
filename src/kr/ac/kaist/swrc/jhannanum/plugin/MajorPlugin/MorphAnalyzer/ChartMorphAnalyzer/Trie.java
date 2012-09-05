@@ -21,10 +21,13 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.StringTokenizer;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import kr.ac.kaist.swrc.jhannanum.share.Code;
 import kr.ac.kaist.swrc.jhannanum.share.TagSet;
@@ -352,15 +355,37 @@ public class Trie {
 	 * @throws IOException
 	 */
 	public void read_dic(String dictionaryFileName, TagSet tagSet) throws IOException{
-		String str = "";
-
 		BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(dictionaryFileName)));
+		read_buf(in, tagSet);
+	}
+	
+	
+	/**
+	 * It reads the morpheme dictionary file, and initializes the trie structure.
+	 * @param zipFilePath - the zip file path of the morpheme dictionary
+	 * @param filePathinZip - the file path of the morpheme dictionary
+	 * @param tagSet - the morpheme tag set
+	 * @throws IOException
+	 */
+	public void read_dic(String zipFilePath,String filePathinZip ,TagSet tagSet) throws IOException{
+		ZipFile zip = new ZipFile(zipFilePath);
+		ZipEntry entry = zip.getEntry(filePathinZip);
+		InputStream in  = zip.getInputStream(entry);
+		BufferedReader br = new BufferedReader(new InputStreamReader(in));
+		
+		read_buf(br, tagSet);
+		zip.close();
+	}
+	
+	
+	private void read_buf(BufferedReader buf, TagSet tagSet) throws IOException{
+		String str = "";
 		INFO[] info_list = new INFO[255];
 		for (int i = 0; i < 255; i++) {
 			info_list[i] = new INFO();
 		}
 
-		while((str = in.readLine()) != null){
+		while((str = buf.readLine()) != null){
 			str.trim();
 			if(str.equals("")){
 				continue;
@@ -397,6 +422,7 @@ public class Trie {
 				store(word3, info_list[i]);
 			}
 		}
+		buf.close();
 	}
 	
 	/**

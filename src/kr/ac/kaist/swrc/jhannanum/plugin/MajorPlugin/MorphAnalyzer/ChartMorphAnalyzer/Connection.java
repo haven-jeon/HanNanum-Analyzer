@@ -20,10 +20,13 @@ package kr.ac.kaist.swrc.jhannanum.plugin.MajorPlugin.MorphAnalyzer.ChartMorphAn
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.StringTokenizer;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import kr.ac.kaist.swrc.jhannanum.share.TagSet;
 
@@ -120,18 +123,35 @@ public class Connection {
 	 * @throws IOException
 	 */
 	public void init(String filePath, int tagCount, TagSet tagSet) throws IOException {
-		readFile(filePath, tagCount, tagSet);
+		BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(filePath)));
+		readFile(br, tagCount, tagSet);
+	}
+	
+	/**
+	 * Initialize the connection rules from the rule data file.
+	 * @param zipFilePath - the path for zip contains the connection rule data file
+	 * @param filePathinZip - path for file in zip
+	 * @param tagCount - the number of the total tags
+	 * @param tagSet - the tag set which is used in the connection rules
+	 * @throws IOException
+	 */
+	public void init(String zipFilePath, String filePathinZip, int tagCount, TagSet tagSet ) throws IOException {
+		ZipFile zip = new ZipFile(zipFilePath);
+		ZipEntry entry = zip.getEntry(filePathinZip);
+		InputStream in  = zip.getInputStream(entry);
+		BufferedReader br = new BufferedReader(new InputStreamReader(in));
+		readFile(br, tagCount, tagSet);
+		zip.close();
 	}
 	
 	/**
 	 * Reads the connection rule data file, and initialize the object.
-	 * @param filePath - the path for the connection rule file
+	 * @param br - the BufferedReader for the connection rule file
 	 * @param tagCount - the number of total tags in the tag set
 	 * @param tagSet - the tag set which is used in the connection rules
 	 * @throws IOException
 	 */
-	private void readFile(String filePath, int tagCount, TagSet tagSet) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(filePath)));
+	private void readFile(BufferedReader br, int tagCount, TagSet tagSet) throws IOException {
 		String line = null;
 		HashSet<Integer> tagSetA = new HashSet<Integer>();
 		HashSet<Integer> tagSetB = new HashSet<Integer>();

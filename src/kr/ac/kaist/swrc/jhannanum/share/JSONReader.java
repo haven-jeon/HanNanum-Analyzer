@@ -17,9 +17,10 @@ along with JHanNanum.  If not, see <http://www.gnu.org/licenses/>   */
 
 package kr.ac.kaist.swrc.jhannanum.share;
 
-import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,10 +34,10 @@ import org.json.JSONObject;
  */
 public class JSONReader {
 	/** the path of the json file */
-	private String filePath = null;
+	protected String filePath = null;
 	
 	/** json object */
-	private JSONObject json = null;
+	protected JSONObject json = null;
 	
 	/**
 	 * Constructor.
@@ -44,17 +45,45 @@ public class JSONReader {
 	 * @throws JSONException
 	 * @throws IOException
 	 */
-	public JSONReader(String filePath) throws JSONException, IOException {
-		FileReader reader = new FileReader(filePath);
+	public JSONReader(String filePath) throws JSONException, IOException  {
+		this.filePath = filePath;
+		read();
+	}
+	/**
+	 * Constructor.
+	 */
+	protected JSONReader(){
+	}
+	
+	/**
+	 * read JSON file.
+	 * @return length of JSON Keys
+	 * @throws JSONException, IOException
+	 */
+	private int read() throws JSONException, IOException {
+		FileInputStream reader = new FileInputStream(filePath);
+		JSONObject jsonobj = this.read(reader);
+		this.json = jsonobj;
+		return(jsonobj.length());
+	}
+	
+	
+	/**
+	 * read JSON file
+	 * @return JSONObject
+	 * @throws IOException, JSONException
+	 */
+	protected JSONObject read(InputStream in) throws IOException, JSONException{
+		InputStreamReader inreader = new InputStreamReader(in);
 		StringBuffer buf = new StringBuffer();
 		char[] cbuf = new char[4096];
 		int idx = 0;
-		while ((idx = reader.read(cbuf)) != -1) {
+		while ((idx = inreader.read(cbuf)) != -1) {
 			buf.append(cbuf, 0, idx);
 		}
-		json = new JSONObject(buf.toString());
-		
-		reader.close();
+		JSONObject jsonobj = new JSONObject(buf.toString());
+		inreader.close();
+		return(jsonobj);
 	}
 	
 	/**

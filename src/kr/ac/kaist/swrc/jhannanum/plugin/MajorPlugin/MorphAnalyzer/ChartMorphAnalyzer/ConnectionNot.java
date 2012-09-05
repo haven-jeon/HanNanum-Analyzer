@@ -20,10 +20,13 @@ package kr.ac.kaist.swrc.jhannanum.plugin.MajorPlugin.MorphAnalyzer.ChartMorphAn
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.StringTokenizer;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import kr.ac.kaist.swrc.jhannanum.share.TagSet;
 
@@ -109,17 +112,33 @@ public class ConnectionNot {
 	 * @throws IOException
 	 */
 	public void init(String filePath, TagSet tagSet) throws IOException {
-		readFile(filePath, tagSet);
+		BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(filePath)));
+		readFile(br, tagSet);
+	}
+	
+	/**
+	 * Initializes the object with the specified file for impossible connection rules.
+	 * @param zipFilePath - the path for zip contains the impossible connection rules
+	 * @param filePathinZip - path for file in zip
+	 * @param tagSet - the morpheme tag set used in the rules
+	 * @throws IOException
+	 */
+	public void init(String zipFilePath, String filePathinZip, TagSet tagSet)throws IOException  {
+		ZipFile zip = new ZipFile(zipFilePath);
+		ZipEntry entry = zip.getEntry(filePathinZip);
+		InputStream in  = zip.getInputStream(entry);
+		BufferedReader br = new BufferedReader(new InputStreamReader(in));
+		readFile(br,tagSet);
+		zip.close();
 	}
 	
 	/**
 	 * Reads the impossible connection rules from the specified file.
-	 * @param filePath - the file for the impossible connection rules
+	 * @param br - the BufferedReader for the impossible connection rules
 	 * @param tagSet - the morpheme tag set used in the rules
 	 * @throws IOException
 	 */
-	private void readFile(String filePath, TagSet tagSet) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(filePath)));
+	private void readFile(BufferedReader br, TagSet tagSet) throws IOException {
 		String line = null;
 		ArrayList<String> ruleList = new ArrayList<String>();
 
