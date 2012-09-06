@@ -169,7 +169,7 @@ public class HMMTagger implements PosTagger {
 		}
 		mn_end = 1;
 
-		JSONReader json = new JSONReader(configFile);
+		JSONReader json = new JSONReader(baseDir + "/" + configFile);
 		PWT_POS_TDBM_FILE = baseDir + "/" + json.getValue("pwt.pos");
 		PTT_POS_TDBM_FILE = baseDir + "/" + json.getValue("ptt.pos");
 		PTT_WP_TDBM_FILE = baseDir + "/" + json.getValue("ptt.wp");

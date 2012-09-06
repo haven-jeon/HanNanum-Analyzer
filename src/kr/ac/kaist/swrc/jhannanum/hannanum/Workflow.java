@@ -271,7 +271,8 @@ public class Workflow {
 	 */
 	public void setMorphAnalyzer(MorphAnalyzer ma, String configFile) {
 		morphAnalyzer = ma;
-		morphAnalyzerConfFile = baseDir + "/" + configFile;
+		//morphAnalyzerConfFile = baseDir + "/" + configFile;
+		morphAnalyzerConfFile = configFile;
 	}
 	
 	/**
@@ -281,7 +282,8 @@ public class Workflow {
 	 */
 	public void setPosTagger(PosTagger tagger, String configFile) {
 		posTagger = tagger;
-		posTaggerConfFile = baseDir + "/" + configFile;
+		//posTaggerConfFile = baseDir + "/" + configFile;
+		posTaggerConfFile = configFile;
 	}
 	
 	/**
@@ -290,7 +292,8 @@ public class Workflow {
 	 * @param configFile - the path for the configuration file (relative path to the base directory)
 	 */
 	public void appendPlainTextProcessor(PlainTextProcessor plugin, String configFile) {
-		plainTextProcessorsConfFiles[plainTextPluginCnt] = baseDir + "/" + configFile;
+		//plainTextProcessorsConfFiles[plainTextPluginCnt] = baseDir + "/" + configFile;
+		plainTextProcessorsConfFiles[plainTextPluginCnt] = configFile;
 		plainTextProcessors[plainTextPluginCnt++] = plugin;
 	}
 	
@@ -300,7 +303,8 @@ public class Workflow {
 	 * @param configFile - the path for the configuration file (relative path to the base directory)
 	 */
 	public void appendMorphemeProcessor(MorphemeProcessor plugin, String configFile) {
-		morphemeProcessorsConfFiles[morphemePluginCnt] = baseDir + "/" + configFile;
+		//morphemeProcessorsConfFiles[morphemePluginCnt] = baseDir + "/" + configFile;
+		morphemeProcessorsConfFiles[morphemePluginCnt] = configFile;
 		morphemeProcessors[morphemePluginCnt++] = plugin;
 	}
 	
@@ -310,7 +314,8 @@ public class Workflow {
 	 * @param configFile - the path for the configuration file (relative path to the base directory)
 	 */
 	public void appendPosProcessor(PosProcessor plugin, String configFile) {
-		posProcessorConfFiles[posPluginCnt] = baseDir + "/" + configFile;
+		//posProcessorConfFiles[posPluginCnt] = baseDir + "/" + configFile;
+		posProcessorConfFiles[posPluginCnt] = configFile;
 		posProcessors[posPluginCnt++] = plugin;
 	}
 	

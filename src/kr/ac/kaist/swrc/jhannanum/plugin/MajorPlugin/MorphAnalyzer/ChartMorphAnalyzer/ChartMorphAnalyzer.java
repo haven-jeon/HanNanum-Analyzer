@@ -173,7 +173,7 @@ public class ChartMorphAnalyzer implements MorphAnalyzer {
 	 */
 	@Override
 	public void initialize(String baseDir, String configFile) throws Exception {
-		JSONReader json = new JSONReader(configFile);
+		JSONReader json = new JSONReader(baseDir + "/" + configFile);
 		
 		fileDicSystem = baseDir + "/" + json.getValue("dic_system");
 		fileDicUser = baseDir + "/" + json.getValue("dic_user");

@@ -149,7 +149,6 @@ public class KoNLPChartMorphAnalyzer implements MorphAnalyzer {
 	 */
 	public void initialize(String baseDir, String configFile) throws Exception {
 		JSONZipReader json = new JSONZipReader(baseDir, configFile);
-		
 		tagSet = new TagSet();
 		tagSet.init(baseDir, json.getValue("tagset"), TagSet.TAG_SET_KAIST);
 

@@ -33,11 +33,14 @@ public class JSONZipReader extends JSONReader {
 	
 	/**
 	 * Constructor.
+	 * @throws IOException 
+	 * @throws JSONException 
 	 * 
 	 */
-	public JSONZipReader(String zipFilePath, String jsonFile)  {
+	public JSONZipReader(String zipFilePath, String jsonFile) throws JSONException, IOException  {
 		this.zipFilePath = zipFilePath;
 		this.jsonFile = jsonFile;
+		read();
 	}
 	
 	/**
@@ -50,14 +53,13 @@ public class JSONZipReader extends JSONReader {
 		ZipFile zip = new ZipFile(zipFilePath);
 		ZipEntry entry = zip.getEntry(jsonFile);
 		InputStream in  = zip.getInputStream(entry);
-		json = read(in);
+		this.json = read(in);
 		zip.close();
 		return json.length();
 	}
-	
-	/*public static void main(String[] args) throws JSONException, IOException{
-		JSONZipReader reader = new JSONZipReader("D:/opensource/Sejong/inst/dics/handics.jar", "conf/plugin/MajorPlugin/MorphAnalyzer/ChartMorphAnalyzer.json");
-		reader.read();
+	/*
+	public static void main(String[] args) throws JSONException, IOException{
+		JSONZipReader reader = new JSONZipReader("D:/opensource/Sejong/inst/dics/handics.zip", "conf/plugin/MajorPlugin/MorphAnalyzer/ChartMorphAnalyzer.json");
 		System.out.println(reader.getAuthor());
 	}
 */
