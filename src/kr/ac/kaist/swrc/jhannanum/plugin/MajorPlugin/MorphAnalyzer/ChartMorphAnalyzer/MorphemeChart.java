@@ -179,6 +179,14 @@ public class MorphemeChart {
 		engReplacementList = new LinkedList<String>();
 	}
 	
+	
+	/**
+	 * @param userDic the userDic to set
+	 */
+	public void setUserDic(Trie userDic) {
+		this.userDic = userDic;
+	}
+
 	/**
 	 * Adds a new morpheme to the chart.
 	 * @param tag - the morpheme tag ID

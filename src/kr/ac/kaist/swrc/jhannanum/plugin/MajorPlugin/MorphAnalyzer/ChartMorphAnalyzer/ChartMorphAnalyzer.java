@@ -216,4 +216,9 @@ public class ChartMorphAnalyzer implements MorphAnalyzer {
 	@Override
 	public void shutdown() {
 	}
+
+	@Override
+	public void loadUserDic(String Path) {
+		// TODO Auto-generated method stub
+	}
 }

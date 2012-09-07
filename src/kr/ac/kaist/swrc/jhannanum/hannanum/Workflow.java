@@ -185,6 +185,8 @@ public class Workflow {
 	 * The communication queues for the third phase plug-ins.
 	 */
 	ArrayList<LinkedBlockingQueue<Sentence>> queuePhase3 = null;
+
+	private String userDicFile;
 	
 	/**
 	 * Constructor.
@@ -275,6 +277,10 @@ public class Workflow {
 		morphAnalyzerConfFile = configFile;
 	}
 	
+	public void setMorphUserDic(String userDicFile){
+		this.userDicFile = userDicFile;
+	}
+	
 	/**
 	 * Sets the POS tagger plug-in, which is the major plug-in on the third phase, on the work flow.
 	 * @param tagger - the POS tagger plug-in
@@ -360,6 +366,7 @@ public class Workflow {
 			
 			queuePhase2.add(out2);
 			morphAnalyzer.initialize(baseDir, morphAnalyzerConfFile);
+			morphAnalyzer.loadUserDic(this.userDicFile);
 			
 			threadList.add(new MorphAnalyzerThread(morphAnalyzer, in1, out2));
 			
@@ -424,6 +431,7 @@ public class Workflow {
 			
 			// initialize the second phase major plug-in and the communication queue
 			morphAnalyzer.initialize(baseDir, morphAnalyzerConfFile);
+			morphAnalyzer.loadUserDic(this.userDicFile);
 			queuePhase2.add(new LinkedBlockingQueue<SetOfSentences>());
 			
 			// initialize the second phase supplement plug-ins and the communication queues
@@ -878,5 +886,10 @@ public class Workflow {
 				}
 			}
 		}
+	}
+	
+	public void reloadUserDic(String path) throws IOException{
+		morphAnalyzer.loadUserDic(path);
+		this.userDicFile = path;
 	}
 }

@@ -17,6 +17,8 @@ along with JHanNanum.  If not, see <http://www.gnu.org/licenses/>   */
 
 package kr.ac.kaist.swrc.jhannanum.plugin.MajorPlugin.MorphAnalyzer;
 
+import java.io.IOException;
+
 import kr.ac.kaist.swrc.jhannanum.comm.PlainSentence;
 import kr.ac.kaist.swrc.jhannanum.comm.SetOfSentences;
 import kr.ac.kaist.swrc.jhannanum.plugin.Plugin;
@@ -37,4 +39,6 @@ public interface MorphAnalyzer extends Plugin {
 	 * @return - the set of eojeols where each eojeol has at least one morphological analysis result
 	 */
 	abstract public SetOfSentences morphAnalyze(PlainSentence ps);
+	
+	abstract public void loadUserDic(String Path) throws IOException;
 }

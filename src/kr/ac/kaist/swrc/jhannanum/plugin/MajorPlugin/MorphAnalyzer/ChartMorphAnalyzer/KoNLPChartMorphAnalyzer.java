@@ -17,6 +17,7 @@ along with KoNLP.  If not, see <http://www.gnu.org/licenses/>
 */
 package kr.ac.kaist.swrc.jhannanum.plugin.MajorPlugin.MorphAnalyzer.ChartMorphAnalyzer;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.StringTokenizer;
@@ -164,15 +165,15 @@ public class KoNLPChartMorphAnalyzer implements MorphAnalyzer {
 		systemDic = new Trie(Trie.DEFAULT_TRIE_BUF_SIZE_SYS);
 		systemDic.read_dic(baseDir, json.getValue("dic_system"), tagSet);
 		//fixed points
-		userDic = new Trie(Trie.DEFAULT_TRIE_BUF_SIZE_SYS);
-		userDic.read_dic(baseDir, json.getValue("dic_user"),tagSet);
+		//userDic = new Trie(Trie.DEFAULT_TRIE_BUF_SIZE_SYS);
+		//userDic.read_dic(baseDir, json.getValue("dic_user"),tagSet);
 
 		numDic = new NumberDic();
 		simti = new Simti();
 		simti.init();
 		eojeolList = new LinkedList<Eojeol>();
 		
-		chart = new MorphemeChart(tagSet, connection, systemDic, userDic, numDic, simti, eojeolList);
+		chart = new MorphemeChart(tagSet, connection, systemDic, null, numDic, simti, eojeolList);
 		
 		postProc = new PostProcessor();
 	}
@@ -181,5 +182,12 @@ public class KoNLPChartMorphAnalyzer implements MorphAnalyzer {
 	 * It is called right before the work flow ends.
 	 */
 	public void shutdown() {
+	}
+
+	@Override
+	public void loadUserDic(String path) throws IOException {
+		userDic = new Trie(Trie.DEFAULT_TRIE_BUF_SIZE_SYS);
+		userDic.read_dic(path,tagSet);
+		chart.setUserDic(userDic);
 	}
 }
