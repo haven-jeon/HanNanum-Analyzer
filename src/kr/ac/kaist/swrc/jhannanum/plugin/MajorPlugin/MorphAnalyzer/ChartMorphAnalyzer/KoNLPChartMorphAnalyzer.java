@@ -182,10 +182,12 @@ public class KoNLPChartMorphAnalyzer implements MorphAnalyzer {
 	 * It is called right before the work flow ends.
 	 */
 	public void shutdown() {
+
 	}
 
 	@Override
 	public void loadUserDic(String path) throws IOException {
+		//set same with System dic size
 		userDic = new Trie(Trie.DEFAULT_TRIE_BUF_SIZE_SYS);
 		userDic.read_dic(path,tagSet);
 		chart.setUserDic(userDic);

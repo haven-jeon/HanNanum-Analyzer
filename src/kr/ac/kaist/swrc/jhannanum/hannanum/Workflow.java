@@ -367,7 +367,7 @@ public class Workflow {
 			queuePhase2.add(out2);
 			morphAnalyzer.initialize(baseDir, morphAnalyzerConfFile);
 			morphAnalyzer.loadUserDic(this.userDicFile);
-			
+
 			threadList.add(new MorphAnalyzerThread(morphAnalyzer, in1, out2));
 			
 			// initialize the second phase supplement plug-ins and the communication queues
