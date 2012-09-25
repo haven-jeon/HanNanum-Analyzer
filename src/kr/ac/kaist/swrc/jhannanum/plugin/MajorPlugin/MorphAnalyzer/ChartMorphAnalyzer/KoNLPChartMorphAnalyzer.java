@@ -182,6 +182,45 @@ public class KoNLPChartMorphAnalyzer implements MorphAnalyzer {
 	 * It is called right before the work flow ends.
 	 */
 	public void shutdown() {
+		if(tagSet != null){
+			tagSet.clear();
+			tagSet = null;
+		}
+		if(connection != null){
+			connection.clear();
+			connection = null;
+		}
+		if(connectionNot != null){
+			connectionNot.clear();
+			connectionNot = null;
+		}
+		if(analyzedDic != null){
+			analyzedDic.clear();
+		}
+		if(systemDic != null){
+			systemDic = null;
+		}
+		if(userDic != null){
+			userDic = null;
+		}
+		if(numDic != null){
+			numDic = null;
+		}
+		if(simti != null){
+			simti = null;
+		}
+		if(eojeolList != null){
+			eojeolList.clear();
+			eojeolList = null;
+		}
+		if(chart != null){
+			chart = null;
+		}
+		if(postProc != null){
+			postProc = null;
+		}
+		
+		
 	}
 
 	@Override
