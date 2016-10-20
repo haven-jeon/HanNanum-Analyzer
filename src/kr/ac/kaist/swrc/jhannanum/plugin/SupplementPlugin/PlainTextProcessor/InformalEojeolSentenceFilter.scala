@@ -1,6 +1,7 @@
 package kr.ac.kaist.swrc.jhannanum.plugin.SupplementPlugin.PlainTextProcessor
 
 import kr.ac.kaist.swrc.jhannanum.comm.PlainSentence
+import kr.ac.kaist.swrc.jhannanum.plugin.SupplementPlugin.PlainTextProcessor.SentenceSegmentor2.SentenceSegmentor2
 
 /**
  * This module prevent to process long Eojole before Morphlogical analysis by adding space between long Eojole.
@@ -44,15 +45,5 @@ class InformalEojeolSentenceFilter extends PlainTextProcessor{
   
 }
 
-//
-//
-//object test {
-// def main(args: Array[String]): Unit = {
-//    var filter = new  InformalEojeolSentenceFilter
-//
-//    var res = filter.doProcess(new PlainSentence(12, 12, false, " "))
-//    println(res.toString())
-//  }
-//}
-//
+
 
