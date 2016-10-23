@@ -1,0 +1,13 @@
+{
+  "name": "SentenceSegmentor2",
+  "version": "1.0",
+  "author": [
+    {
+      "name": "전희원",
+      "email": "madjakarta@gmail.com"
+    }
+  ],
+  "description": "",
+  "type": "PlainTextProcessor"
+}
+

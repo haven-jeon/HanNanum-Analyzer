@@ -40,8 +40,8 @@ class InformalEojeolSentenceFilter extends PlainTextProcessor{
   def hasRemainingData(): Boolean = false
   
   // Members declared in kr.ac.kaist.swrc.jhannanum.plugin.Plugin
-  def initialize(x$1: String,x$2: String): Unit = ???
-  def shutdown(): Unit = ???
+  def initialize(x$1: String,x$2: String): Unit = {}
+  def shutdown(): Unit = {}
   
 }
 
