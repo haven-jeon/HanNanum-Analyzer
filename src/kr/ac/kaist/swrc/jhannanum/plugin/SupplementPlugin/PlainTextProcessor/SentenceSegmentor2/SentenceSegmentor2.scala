@@ -64,16 +64,20 @@ class SentenceSegmentor2 extends PlainTextProcessor {
 	  var start = sent_iter.first()
 	  var end = sent_iter.next()
 	  if (end != BreakIterator.DONE) {
-      var sent = sents.substring(start,end)
+	    var raw_sent = sents.substring(start,end).trim()
+      var sent = raw_sent.substring(start,raw_sent.length() - 1) + " " + raw_sent.substring(raw_sent.length() - 1, raw_sent.length())
       bufSents = sents.substring(end)
       sentenceID += 1
-      if(bufSents == ""){
+      if(bufSents.trim() == ""){
+        bufSents = null
         hasRemainingData = false
       }else{
         hasRemainingData = true 
       }
+	    
       return new PlainSentence(documentID, sentenceID - 1, !hasRemainingData && endOfDocument, sent)
 	  }else{
+	    bufSents = null
 	    hasRemainingData = false
 	    return null
 	  }
@@ -93,15 +97,17 @@ class SentenceSegmentor2 extends PlainTextProcessor {
 	
 }
 
-/*
+
 object test {
  def main(args: Array[String]): Unit = {
-    var ceg = new SentenceSegmentor
+    var ceg = new SentenceSegmentor2
     var te= new PlainSentence(1,1,false,
         "아름다운 우리나라 금수강산에서 살자! 그러나 나는 뭐가 중한지 모르겠다.")
     var fst = ceg.doProcess(te)
     while( fst != null){
       println(fst.getSentence)
+      println(fst.getDocumentID)
+      println(fst.getSentenceID)
       fst = ceg.doProcess(null)
     }
     //var rem = ceg.flush()
@@ -114,4 +120,3 @@ object test {
   }
 }
 
-*/

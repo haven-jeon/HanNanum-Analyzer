@@ -117,7 +117,7 @@ public class HannanumInterface {
 			wfNoun = new Workflow(basedir);
 			wfNoun.appendPlainTextProcessor(new SentenceSegmentor2(), null);
 			wfNoun.appendPlainTextProcessor(new InformalSentenceFilter(), null);
-			wfNoun.appendPlainTextProcessor(new InformalEojeolSentenceFilter(), null);
+			//wfNoun.appendPlainTextProcessor(new InformalEojeolSentenceFilter(), null);
 			
 			wfNoun.setMorphAnalyzer(new KoNLPChartMorphAnalyzer(),
 					"conf/plugin/MajorPlugin/MorphAnalyzer/ChartMorphAnalyzer.json");
@@ -312,30 +312,38 @@ public class HannanumInterface {
 		}*/
 		
 		System.out.println("test");
-		System.out.println(hi.SimplePos22("C:/Users/gogamza/Documents/work/Sejong/inst/dics/handics.zip",
+		System.out.println(hi.SimplePos22("C:/Users/gogamza/Documents/work/Sejong/inst/dics/handic.zip",
 				"죽어도 못 보내 버스 타요. 장미 그리고 술.이게 어떻게 된 것인가?", 
-				"C:/Users/gogamza/Documents/work/Sejong/inst/dics/handics/data/kE/dic_user2.txt"));
+				"C:/Users/gogamza/Documents/work/Sejong/inst/dics/handic/data/kE/dic_user2.txt"));
 		
 		
-		System.out.println(hi.SimplePos09("C:/Users/gogamza/Documents/work/Sejong/inst/dics/handics.zip",
+		System.out.println(hi.SimplePos09("C:/Users/gogamza/Documents/work/Sejong/inst/dics/handic.zip",
 				"아름다운 우리나라 금수강산에서 살자! 나는 우리 나라가 좋다. 이게 어떻게 된 것인가?", 
-				"C:/Users/gogamza/Documents/work/Sejong/inst/dics/handics/data/kE/dic_user2.txt"));
+				"C:/Users/gogamza/Documents/work/Sejong/inst/dics/handic/data/kE/dic_user2.txt"));
 	
 		//int i = hi.reloadUserDic("D:/opensource/Sejong/inst/dics/handics/data/kE/dic_user.txt", "extractNoun");
 		//System.out.println(String.valueOf(i));
 		
 		//System.out.println("end");
 		
-		String[] ret1 = hi.extractNoun("C:/Users/gogamza/Documents/work/Sejong/inst/dics/handics.zip", 
-				"아름다운 우리나라 금수강산에서 살자! 나는 우리 나라가 좋다. 이게 어떻게 된 것인가?", 
-				"C:/Users/gogamza/Documents/work/Sejong/inst/dics/handics/data/kE/dic_user.txt");
+		String[] ret1 = hi.extractNoun("C:/Users/gogamza/Documents/work/Sejong/inst/dics/handic.zip", 
+				"아름다운 우리나라", 
+				"C:/Users/gogamza/Documents/work/Sejong/inst/dics/handic/data/kE/dic_user.txt");
 		for(int i1= 0; i1 < ret1.length; i1++){
 			System.out.println(ret1[i1]);
 		}
-		//String[] ret2 = KoNLPUtil.readZipDic("C:/R/R-2.15.1/library/Sejong/dics/handic.zip", "data/kE/dic_user2.txt");
-		//for(int i1= 0; i1 < ret2.length; i1++){
-		//	System.out.println(ret2[i1]);
-		//}
+		/*String[] ret2 = KoNLPUtil.readZipDic("C:/R/R-2.15.1/library/Sejong/dics/handic.zip", 
+				"data/kE/dic_user2.txt");
+		for(int i1= 0; i1 < ret2.length; i1++){
+			System.out.println(ret2[i1]);
+		}*/
+		
+		String[] ret2 = hi.extractNoun("C:/Users/gogamza/Documents/work/Sejong/inst/dics/handic.zip", 
+				"그러나 이후 국내 소설계에서 무시할 수 없는 비중을 차지하게 된 양판소와 귀여니류 연애소설은 불쏘시개 취급 받으며 시간때우기에 불과하다는 평가를 자주 받곤 하지만, 애초에 시간때우기 용이라는 말은 바꿔 말하면 시간을 때울 정도는 된다는 이야기다.", 
+				"C:/Users/gogamza/Documents/work/Sejong/inst/dics/handic/data/kE/dic_user.txt");
+		for(int i1= 0; i1 < ret2.length; i1++){
+			System.out.println(ret2[i1]);
+		}
 		
 		System.out.println("adsd".matches("[a-zA-Z]+"));
 		
