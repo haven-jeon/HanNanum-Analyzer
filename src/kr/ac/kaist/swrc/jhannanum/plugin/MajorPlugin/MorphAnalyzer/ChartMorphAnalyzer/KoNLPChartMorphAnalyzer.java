@@ -199,12 +199,15 @@ public class KoNLPChartMorphAnalyzer implements MorphAnalyzer {
 			analyzedDic.clear();
 		}
 		if(systemDic != null){
+			systemDic.free_all_node();
 			systemDic = null;
 		}
 		if(userDic != null){
+			userDic.free_all_node();
 			userDic = null;
 		}
 		if(numDic != null){
+	
 			numDic = null;
 		}
 		if(simti != null){

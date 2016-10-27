@@ -41,6 +41,11 @@ public class Eojeol {
 	private String[] tags = null;
 	
 	/**
+	 * Morpheme flag about Eojeol is on user dic.
+	 */
+	private boolean[] on_dic = null;
+	
+	/**
 	 * Constructor.
 	 */
 	public Eojeol() {

@@ -188,6 +188,8 @@ public class Workflow {
 
 	private String userDicFile;
 	
+	private String context;
+	
 	/**
 	 * Constructor.
 	 * The maximum number of supplement plug-ins for each phase is set up with Workflow.MAX_SUPPLEMENT_PLUGIN_NUM.
@@ -217,8 +219,9 @@ public class Workflow {
 	 * Constructor.
 	 * The maximum number of supplement plug-ins for each phase is set up with Workflow.MAX_SUPPLEMENT_PLUGIN_NUM.
 	 * @param baseDir - the path for base directory, which should have the 'conf' and 'data' directory
+	 * @param ctx     - which analyzer will be used 
 	 */
-	public Workflow(String baseDir) {
+	public Workflow(String baseDir, String ctx) {
 		this.maxSupplementPluginNum = MAX_SUPPLEMENT_PLUGIN_NUM;
 		
 		plainTextProcessors = new PlainTextProcessor[maxSupplementPluginNum];
@@ -237,6 +240,11 @@ public class Workflow {
 		isInitialized = true;
 		
 		this.baseDir = baseDir;
+		this.context = ctx;
+	}
+	
+	public String getCtx(){
+		return this.context;
 	}
 	
 	/**
@@ -500,8 +508,14 @@ public class Workflow {
 			plainTextPluginCnt = 0;
 			morphemePluginCnt = 0;
 			posPluginCnt = 0;
-			morphAnalyzer = null;
-			posTagger = null;
+			if(morphAnalyzer != null){
+				morphAnalyzer.shutdown();
+				morphAnalyzer = null;
+			}
+			if(posTagger != null){
+				posTagger.shutdown(); 
+				posTagger = null;
+			}
 		}
 	}
 	

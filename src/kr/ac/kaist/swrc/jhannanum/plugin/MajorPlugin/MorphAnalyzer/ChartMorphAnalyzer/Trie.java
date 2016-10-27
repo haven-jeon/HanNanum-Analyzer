@@ -324,6 +324,12 @@ public class Trie {
 			e.printStackTrace();
 		}
 	}
+	
+	public void free_all_node(){
+		trie_buf = null;
+		free_head = null;
+		node_head = null;
+	}
 
 	/**
 	 * It prints the trie structure by recursive call.

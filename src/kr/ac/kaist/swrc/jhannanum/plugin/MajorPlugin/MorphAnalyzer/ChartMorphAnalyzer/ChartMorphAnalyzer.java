@@ -177,6 +177,7 @@ public class ChartMorphAnalyzer implements MorphAnalyzer {
 		
 		fileDicSystem = baseDir + "/" + json.getValue("dic_system");
 		fileDicUser = baseDir + "/" + json.getValue("dic_user");
+		System.out.println(fileDicUser);
 		fileConnections = baseDir + "/" + json.getValue("connections");
 		fileConnectionsNot = baseDir + "/" + json.getValue("connections_not");
 		fileDicAnalyzed = baseDir + "/" + json.getValue("dic_analyzed");
