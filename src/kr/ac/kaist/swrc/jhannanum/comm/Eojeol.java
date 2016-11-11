@@ -43,7 +43,7 @@ public class Eojeol {
 	/**
 	 * Morpheme flag about Eojeol is on user dic.
 	 */
-	private boolean[] on_dic = null;
+	//private boolean[] on_dic = null;
 	
 	/**
 	 * Constructor.

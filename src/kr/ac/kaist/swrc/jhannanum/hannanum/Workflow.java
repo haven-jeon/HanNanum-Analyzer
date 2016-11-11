@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 import kr.ac.kaist.swrc.jhannanum.comm.PlainSentence;
 import kr.ac.kaist.swrc.jhannanum.comm.Sentence;
@@ -726,7 +727,11 @@ public class Workflow {
 				}
 				LinkedBlockingQueue<Sentence> queue = queuePhase3.get(outputQueueNum);
 				while (true) {
-					Sentence sent = queue.take();
+					Sentence sent = queue.poll(500, TimeUnit.MILLISECONDS);
+					if(sent == null){
+						break;
+					}
+//					Sentence sent = queue.take();
 					list.add((T)sent);
 					if (sent.isEndOfDocument()) {
 						break;

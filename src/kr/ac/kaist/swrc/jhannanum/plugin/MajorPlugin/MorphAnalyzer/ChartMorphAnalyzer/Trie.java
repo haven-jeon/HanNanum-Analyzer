@@ -407,6 +407,8 @@ public class Trie {
 				String curt = tok2.nextToken();
 				int x = tagSet.getTagID(curt);
 				if (x == -1) {
+					System.out.println(word);
+					System.out.println(curt);
 					System.err.println("read_dic:tag error");
 					continue;
 				}

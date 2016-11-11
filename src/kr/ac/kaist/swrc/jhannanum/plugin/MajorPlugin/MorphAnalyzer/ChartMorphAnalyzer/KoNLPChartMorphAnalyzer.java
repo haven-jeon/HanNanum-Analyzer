@@ -199,11 +199,9 @@ public class KoNLPChartMorphAnalyzer implements MorphAnalyzer {
 			analyzedDic.clear();
 		}
 		if(systemDic != null){
-			systemDic.free_all_node();
 			systemDic = null;
 		}
 		if(userDic != null){
-			userDic.free_all_node();
 			userDic = null;
 		}
 		if(numDic != null){
@@ -229,7 +227,7 @@ public class KoNLPChartMorphAnalyzer implements MorphAnalyzer {
 	@Override
 	public void loadUserDic(String path) throws IOException {
 		//set same with System dic size
-		userDic = new Trie(Trie.DEFAULT_TRIE_BUF_SIZE_SYS);
+		userDic = new Trie(Trie.DEFAULT_TRIE_BUF_SIZE_SYS * 4);
 		userDic.read_dic(path,tagSet);
 		chart.setUserDic(userDic);
 	}
