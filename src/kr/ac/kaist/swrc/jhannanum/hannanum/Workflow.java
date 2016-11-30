@@ -703,7 +703,10 @@ public class Workflow {
 				}
 				LinkedBlockingQueue<PlainSentence> queue = queuePhase1.get(outputQueueNum);
 				while (true) {
-					PlainSentence ps = queue.take();
+					PlainSentence ps = queue.poll(500, TimeUnit.MILLISECONDS);
+					if(ps == null){
+						break;
+					}
 					list.add((T)ps);
 					if (ps.isEndOfDocument()) {
 						break;
@@ -715,7 +718,10 @@ public class Workflow {
 				}
 				LinkedBlockingQueue<SetOfSentences> queue = queuePhase2.get(outputQueueNum);
 				while (true) {
-					SetOfSentences sos = queue.take();
+					SetOfSentences sos = queue.poll(500, TimeUnit.MILLISECONDS);
+					if(sos == null){
+						break;
+					}
 					list.add((T)sos);
 					if (sos.isEndOfDocument()) {
 						break;
