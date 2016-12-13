@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.text.Normalizer;
 
 import kr.ac.kaist.swrc.jhannanum.comm.Eojeol;
 import kr.ac.kaist.swrc.jhannanum.comm.Sentence;
@@ -136,7 +137,8 @@ public class HannanumInterface {
 			/* Activate the work flow in the thread mode */
 
 			/* Analysis using the work flow */
-			wf.analyze(sentence);
+			String n_sentence = Normalizer.normalize(sentence, Normalizer.Form.NFKC);
+			wf.analyze(n_sentence);
 
 			LinkedList<Sentence> resultList = wf
 					.getResultOfDocument(new Sentence(0, 0, false));
@@ -185,7 +187,7 @@ public class HannanumInterface {
 	
 		
 		if (wf == null) {
-			wf = new Workflow(basedir, "MorphAnalyzer");
+			wf = new Workflow(basedir, ctx);
 			wf.appendPlainTextProcessor(new SentenceSegmentor2(),null);
 			if(ctx.equals("MorphAnalyzer_sp") ){
 				wf.appendPlainTextProcessor(new Spacing(), "");
@@ -213,7 +215,8 @@ public class HannanumInterface {
 		}
 		String morphs = null;
 		try {
-			wf.analyze(sentence);
+			String n_sentence = Normalizer.normalize(sentence, Normalizer.Form.NFKC);
+			wf.analyze(n_sentence);
 			morphs = wf.getResultOfDocument();
 			wf.close();
 
@@ -242,7 +245,7 @@ public class HannanumInterface {
 		
 		
 		if (wf == null) {
-			wf = new Workflow(basedir, "SimplePos22");
+			wf = new Workflow(basedir, ctx);
 			wf.appendPlainTextProcessor(new SentenceSegmentor2(), null);
 			if(ctx.equals("SimplePos22_sp") ){
 				wf.appendPlainTextProcessor(new Spacing(), "");
@@ -272,7 +275,8 @@ public class HannanumInterface {
 		}
 		String morphs = null;
 		try {
-			wf.analyze(sentence);
+			String n_sentence = Normalizer.normalize(sentence, Normalizer.Form.NFKC);
+			wf.analyze(n_sentence);
 
 			morphs = wf.getResultOfDocument();
 
@@ -301,7 +305,7 @@ public class HannanumInterface {
 		}
 		
 		if (wf == null) {
-			wf = new Workflow(basedir, "SimplePos09");
+			wf = new Workflow(basedir, ctx);
 			wf.appendPlainTextProcessor(new SentenceSegmentor2(), null);
 			if(ctx.equals("SimplePos09_sp") ){
 				wf.appendPlainTextProcessor(new Spacing(), "");
@@ -332,7 +336,8 @@ public class HannanumInterface {
 		String morphs = null;
 		try {
 			/* Analysis using the work flow */
-			wf.analyze(sentence);
+			String n_sentence = Normalizer.normalize(sentence, Normalizer.Form.NFKC);
+			wf.analyze(n_sentence);
 			morphs = wf.getResultOfDocument();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -360,7 +365,7 @@ public class HannanumInterface {
 		}
 		
 		String[] ret2 = hi.extractNoun("C:/R/R-3.3.2/library/Sejong/dics/handic.zip", 
-				"인터넷소설이", 
+				"인터넷 소설이", 
 				"C:/R/R-3.3.2/library/KoNLP/../KoNLP_dic/current/dic_user.txt", true);
 		for(int i1= 0; i1 < ret2.length; i1++){
 			System.out.println(ret2[i1]);
