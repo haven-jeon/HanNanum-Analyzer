@@ -3,14 +3,14 @@ package kr.ac.kaist.swrc.jhannanum.plugin.SupplementPlugin.PlainTextProcessor
 import kr.ac.kaist.swrc.jhannanum.comm.PlainSentence
 import scala.io.Source
 import kr.pe.freesearch.jhannanum.comm._
-
+import java.text.Normalizer
 
 class Spacing extends PlainTextProcessor {
   /** As seen from class Spacing, the missing signatures are as follows.
  *  For convenience, these are usable as stub implementations.
  */
    val numState = 2
-   val numChars = 4792
+   val numChars = 4131 + 2
   
    var hmm =  new HiddenMarkovModel(numState, numChars)
    var char_map = Map[String,Int]().withDefaultValue(numChars - 1)
@@ -25,19 +25,21 @@ class Spacing extends PlainTextProcessor {
   	  seq = seq :+ char_map(i.toString()) 
   	}
     val buf = Array.ofDim[Char](seq.length * 2)
+    buf.foreach { x => '\u0020' }
     var space_seq = viterbi(seq, seq.length, 0)._2
     
     var spacingidx = 0
     for((x, i) <- space_seq.zipWithIndex){
       if(x == 1 ) {
+        buf(spacingidx) = '\u0020'
         spacingidx += 1
-        buf(spacingidx) = ' '
       }
       buf(spacingidx) = chss(i)
       spacingidx += 1
     } 
-    val strbuf =buf.slice(0, spacingidx).mkString
-    ps.setSentence(strbuf.replaceAll("""\s+""", " "))
+    val strbuf = buf.slice(0, spacingidx).mkString
+    val strcl = strbuf.replaceAll("\\s+", " ")
+    ps.setSentence(strcl)
     return ps
   }
  
@@ -54,6 +56,7 @@ class Spacing extends PlainTextProcessor {
        
  	  for(i <- lineiter){
  		  val par_li = i.toString().split("\t")
+ 		  //println(par_li(0))
 		  char_map += (par_li(0) -> par_li(1).toInt)
  	   }
     //공백은 마지막 인덱스로 ...
@@ -73,21 +76,21 @@ class Spacing extends PlainTextProcessor {
     	hmm.B(par_li2(0).toInt, par_li2(1).toInt) =  par_li2(2).toDouble
     }
     //공백의 다음엔 띄어쓰기가 올 가능성이 희박하다. 
-    hmm.B(1, 4790) =  0.10
-    hmm.B(0, 4790) =  0.90
+    hmm.B(1, 4131) =  0.10
+    hmm.B(0, 4131) =  0.90
     //기본 발현 확률 
-    hmm.B(1, 4791) =  0.60
-    hmm.B(0, 4791) =  0.40
+    hmm.B(1, 4132) =  0.50
+    hmm.B(0, 4132) =  0.50
     
     //코퍼스로 부터 계산된 전이확률
-  	hmm.A(0,0) = 0.6646049
-  	hmm.A(0,1) = 0.33539509
-  	hmm.A(1,0) = 0.9498057
-  	hmm.A(1,1) = 0.05019432
+  	hmm.A(0,0) = 0.5851609
+  	hmm.A(0,1) = 0.41483907
+  	hmm.A(1,0) = 0.9300953
+  	hmm.A(1,1) = 0.06990471
   	
   	//첫 state 확률
-  	hmm.Pi(0) = 0.6
-  	hmm.Pi(1) = 0.4
+  	hmm.Pi(0) = 0.5
+  	hmm.Pi(1) = 0.5
   
  	  viterbi = new ViterbiAlgorithm(hmm)
     }
@@ -103,8 +106,11 @@ object test {
  def main(args: Array[String]): Unit = {
     var ceg = new Spacing
     var te= new PlainSentence(1,1,false,
-        "일정한조건에")
-    //println(te.getSentence)
+        "우리집에어떻게왔는지모르겠지만너도뭘해야될지고민을해야될거아니냐?")
+    println(te.getSentence)
+    for(ch <- te.getSentence){
+      println(ch.toHexString)
+    }
     ceg.initialize("", "")
     var fst = ceg.doProcess(te)
       println(fst.getSentence)

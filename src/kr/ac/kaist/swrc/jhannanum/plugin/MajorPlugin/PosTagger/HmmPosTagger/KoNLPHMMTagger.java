@@ -159,8 +159,8 @@ public class KoNLPHMMTagger implements PosTagger {
 		}
 		wp_end = 1;
 
-		mn = new MNode[10000];
-		for (int i = 0; i < 10000; i++) {
+		mn = new MNode[100000];
+		for (int i = 0; i < 100000; i++) {
 			mn[i] = new MNode();
 		}
 		mn_end = 1;

@@ -30,7 +30,6 @@ import kr.ac.kaist.swrc.jhannanum.plugin.MajorPlugin.MorphAnalyzer.ChartMorphAna
 import kr.ac.kaist.swrc.jhannanum.plugin.MajorPlugin.PosTagger.HmmPosTagger.KoNLPHMMTagger;
 import kr.ac.kaist.swrc.jhannanum.plugin.SupplementPlugin.MorphemeProcessor.UnknownMorphProcessor.UnknownProcessor;
 import kr.ac.kaist.swrc.jhannanum.plugin.SupplementPlugin.PlainTextProcessor.Spacing;
-//import kr.ac.kaist.swrc.jhannanum.plugin.SupplementPlugin.PlainTextProcessor.InformalEojeolSentenceFilter;
 import kr.ac.kaist.swrc.jhannanum.plugin.SupplementPlugin.PlainTextProcessor.InformalSentenceFilter.InformalSentenceFilter;
 import kr.ac.kaist.swrc.jhannanum.plugin.SupplementPlugin.PlainTextProcessor.SentenceSegmentor2.SentenceSegmentor2;
 import kr.ac.kaist.swrc.jhannanum.plugin.SupplementPlugin.PosProcessor.NounExtractor.NounExtractor;
@@ -88,9 +87,14 @@ public class HannanumInterface {
 	
 	//This function is not for dictionary updating.plz use reloadUserDic functions.
 	// TODO : added force apply user inputted noun to output 
-	public String[] extractNoun(String basedir, String sentence, String userDicFile) {
+	public String[] extractNoun(String basedir, String sentence, String userDicFile, boolean isSpacing) {
+		String ctx = "extractNoun";
+		if(isSpacing == true){
+			ctx = ctx + "_sp";
+		}
+
 		if(wf != null){
-			if(wf.getCtx() != "extractNoun"){
+			if(!wf.getCtx().equals(ctx)){
 				wf.clear();
 				wf = null;
 			}
@@ -98,10 +102,12 @@ public class HannanumInterface {
 		
 		
 		if (wf == null) {
-			wf = new Workflow(basedir, "extractNoun");
+			wf = new Workflow(basedir, ctx);
 			wf.appendPlainTextProcessor(new SentenceSegmentor2(), null);
+			if(ctx.equals("extractNoun_sp") ){
+				wf.appendPlainTextProcessor(new Spacing(), "");
+			}
 			wf.appendPlainTextProcessor(new InformalSentenceFilter(), null);
-			wf.appendPlainTextProcessor(new Spacing(), "");
 			//wf.appendPlainTextProcessor(new InformalEojeolSentenceFilter(), null);
 			
 			wf.setMorphAnalyzer(new KoNLPChartMorphAnalyzer(),
@@ -163,18 +169,27 @@ public class HannanumInterface {
 	 * @param args
 	 */
 
-	public String MorphAnalyzer(String basedir, String sentence, String userDicFile) {
+	public String MorphAnalyzer(String basedir, String sentence, String userDicFile, boolean isSpacing) {
+		String ctx = "MorphAnalyzer";
+		if(isSpacing == true){
+			ctx = ctx + "_sp";
+		}
+
 		if(wf != null){
-			if(wf.getCtx() != "MorphAnalyzer"){
+			if(!wf.getCtx().equals(ctx)){
 				wf.clear();
 				wf = null;
 			}
 		}
 		
+	
 		
 		if (wf == null) {
 			wf = new Workflow(basedir, "MorphAnalyzer");
 			wf.appendPlainTextProcessor(new SentenceSegmentor2(),null);
+			if(ctx.equals("MorphAnalyzer_sp") ){
+				wf.appendPlainTextProcessor(new Spacing(), "");
+			}
 			wf.appendPlainTextProcessor(new InformalSentenceFilter(), null);
 			//wf.appendPlainTextProcessor(new Spacing(), "");
 			
@@ -211,9 +226,15 @@ public class HannanumInterface {
 		return morphs;
 	}
 
-	public String SimplePos22(String basedir, String sentence, String userDicFile) {
+	public String SimplePos22(String basedir, String sentence, String userDicFile, boolean isSpacing) {
+		String ctx = "SimplePos22";
+		if(isSpacing == true){
+			ctx = ctx + "_sp";
+		}
+		
+		
 		if(wf != null){
-			if(wf.getCtx() != "SimplePos22"){
+			if(!wf.getCtx().equals(ctx)){
 				wf.clear();
 				wf = null;
 			}
@@ -223,6 +244,9 @@ public class HannanumInterface {
 		if (wf == null) {
 			wf = new Workflow(basedir, "SimplePos22");
 			wf.appendPlainTextProcessor(new SentenceSegmentor2(), null);
+			if(ctx.equals("SimplePos22_sp") ){
+				wf.appendPlainTextProcessor(new Spacing(), "");
+			}
 			wf.appendPlainTextProcessor(new InformalSentenceFilter(), null);
 			//wf.appendPlainTextProcessor(new InformalEojeolSentenceFilter(), null);
 			
@@ -263,10 +287,14 @@ public class HannanumInterface {
 		return morphs;
 	}
 
-	public String SimplePos09(String basedir, String sentence, String userDicFile) {
-		//need to reuse memory when run different analyzer 
+	public String SimplePos09(String basedir, String sentence, String userDicFile, boolean isSpacing) {
+		String ctx = "SimplePos09";
+		if(isSpacing == true){
+			ctx = ctx + "_sp";
+		}
+		 
 		if(wf != null){
-			if(wf.getCtx() != "SimplePos09"){
+			if(!wf.getCtx().equals(ctx)){
 				wf.clear();
 				wf = null;
 			}
@@ -275,6 +303,9 @@ public class HannanumInterface {
 		if (wf == null) {
 			wf = new Workflow(basedir, "SimplePos09");
 			wf.appendPlainTextProcessor(new SentenceSegmentor2(), null);
+			if(ctx.equals("SimplePos09_sp") ){
+				wf.appendPlainTextProcessor(new Spacing(), "");
+			}
 			wf.appendPlainTextProcessor(new InformalSentenceFilter(), null);
 			//wf.appendPlainTextProcessor(new InformalEojeolSentenceFilter(), null);
 
@@ -322,11 +353,19 @@ public class HannanumInterface {
 		}*/
 		
 		String[] ret1 = hi.extractNoun("C:/R/R-3.3.2/library/Sejong/dics/handic.zip", 
-				"일정한조건에따르면,자유롭게이것을재배포할수가있습니다.", 
-				"C:/R/R-3.3.2/library/KoNLP/../KoNLP_dic/current/dic_user.txt");
+				"공보관통상진흥국장전자공업국장무역조사실장제 1차관보.", 
+				"C:/R/R-3.3.2/library/KoNLP/../KoNLP_dic/current/dic_user.txt", true);
 		for(int i1= 0; i1 < ret1.length; i1++){
 			System.out.println(ret1[i1]);
 		}
+		
+		String[] ret2 = hi.extractNoun("C:/R/R-3.3.2/library/Sejong/dics/handic.zip", 
+				"인터넷소설이", 
+				"C:/R/R-3.3.2/library/KoNLP/../KoNLP_dic/current/dic_user.txt", true);
+		for(int i1= 0; i1 < ret2.length; i1++){
+			System.out.println(ret2[i1]);
+		}
+//		
 //		
 //		
 //		System.out.println("test");
